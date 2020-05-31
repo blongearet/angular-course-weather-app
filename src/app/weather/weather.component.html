@@ -1,23 +1,23 @@
 <mat-grid-list cols="8" rowHeight="100px">
   <mat-grid-tile colspan="8" class="weather-title">
-    <div fxFlex fxLayout="column" fxLayoutAlign="space-around start">
+    <div fxFlex fxLayout="column" fxLayoutAlign="space-around start" *ngIf="weatherTitle$ | async as weatherTitle">
       <h1>Beauvoisin</h1>
-      <h2>dimange 19:00</h2>
-      <h3>Temps clair</h3>
+      <h2>{{ weatherTitle.date }}</h2>
+      <h3>{{ weatherTitle.weather }}</h3>
     </div>
   </mat-grid-tile>
-  <mat-grid-tile colspan="4" class="weather-temperatures">
+  <mat-grid-tile colspan="4" class="weather-temperatures" *ngIf="weatherTemperatures$ | async as weatherTemperatures">
     <div fxFlex fxLayout="row" fxLayoutAlign="start start">
-      <img alt="Weather" src="http://openweathermap.org/img/wn/10d@2x.png">
-      <span class="weather-temperatures-temperature">17</span>
+      <img alt="Weather" [src]="weatherTemperatures.weatherIconUrl">
+      <span class="weather-temperatures-temperature">{{ weatherTemperatures.temperature }}</span>
       <span class="weather-temperatures-unit">°C</span>
     </div>
   </mat-grid-tile>
-  <mat-grid-tile colspan="4" class="weather-stats">
+  <mat-grid-tile colspan="4" class="weather-stats" *ngIf="weatherStats$ | async as weatherStats">
     <div fxFlex fxLayout="column" fxLayoutAlign="space-around start">
-      <span>Précipitations : 3mm</span>
-      <span>Humidité : 55%</span>
-      <span>Vent : 14km/h</span>
+      <span>Nuages : {{ weatherStats.clouds }}%</span>
+      <span>Humidité : {{ weatherStats.humidity }}%</span>
+      <span>Vent : {{ weatherStats.wind }}km/h</span>
     </div>
   </mat-grid-tile>
   <mat-grid-tile colspan="1">
