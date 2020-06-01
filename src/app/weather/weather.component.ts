@@ -20,6 +20,13 @@ export interface IWeatherComponentStats {
   wind: number
 }
 
+export interface IWeatherComponentDaily {
+  time: string
+  min: number
+  max: number
+  weatherIconUrl: string
+}
+
 @Component({
   selector: 'app-weather',
   templateUrl: './weather.component.html',
@@ -31,6 +38,7 @@ export class WeatherComponent implements OnInit {
   public weatherTitle$: Observable<IWeatherComponentTitle>
   public weatherTemperatures$: Observable<IWeatherComponentTemperatures>
   public weatherStats$: Observable<IWeatherComponentStats>
+  public weatherDaily$: Observable<IWeatherComponentDaily[]>
 
   constructor(private weather: WeatherService) {
     this.weather$ = this.weather.fetchAndGetWeather$(43.7190656,4.3057152)
@@ -55,6 +63,18 @@ export class WeatherComponent implements OnInit {
         humidity: weather.getCurrentHumidity(),
         wind: weather.getCurrentWind()
       }))
+    )
+
+    this.weatherDaily$ = this.weather$.pipe(
+      map(weather => {
+        let daily = weather.getDailySummary(8)
+        return daily.map(day => ({
+          time: day.time.format('ddd'),
+          min: Math.round(day.temp.min),
+          max: Math.round(day.temp.max),
+          weatherIconUrl: `http://openweathermap.org/img/wn/${day.weather.icon}@2x.png`
+        }))
+      })
     )
   }
 

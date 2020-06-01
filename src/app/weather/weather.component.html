@@ -20,28 +20,16 @@
       <span>Vent : {{ weatherStats.wind }}km/h</span>
     </div>
   </mat-grid-tile>
-  <mat-grid-tile colspan="1">
-    Jour 1
-  </mat-grid-tile>
-  <mat-grid-tile colspan="1">
-    Jour 2
-  </mat-grid-tile>
-  <mat-grid-tile colspan="1">
-    Jour 3
-  </mat-grid-tile>
-  <mat-grid-tile colspan="1">
-    Jour 4
-  </mat-grid-tile>
-  <mat-grid-tile colspan="1">
-    Jour 5
-  </mat-grid-tile>
-  <mat-grid-tile colspan="1">
-    Jour 6
-  </mat-grid-tile>
-  <mat-grid-tile colspan="1">
-    Jour 7
-  </mat-grid-tile>
-  <mat-grid-tile colspan="1">
-    Jour 8
-  </mat-grid-tile>
+  <ng-template ngFor let-daily [ngForOf]="weatherDaily$ | async">
+    <mat-grid-tile colspan="1" class="weather-daily">
+      <div fxFlex fxLayout="column" fxLayoutAlign="space-between center">
+        <span class="date">{{ daily.time }}</span>
+        <img alt="Weather" [src]="daily.weatherIconUrl">
+        <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+          <span class="min">{{ daily.min }}°</span> <span class="max">{{ daily.max }}°</span>
+        </div>
+      </div>
+    </mat-grid-tile>
+  </ng-template>
+
 </mat-grid-list>
