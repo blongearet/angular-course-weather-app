@@ -9,7 +9,7 @@ export class Weather {
   }
 
   public getCurrentTime(): moment.Moment {
-    return moment(this.rawResponse.current.dt)
+    return moment.unix(this.rawResponse.current.dt)
   }
 
   public getCurrentWeather(): IOpenWeatherMapOneCallWeatherResponse {
